@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Функції та процедури в Pascal — інтерактивний урок</title>
+<style>
+:root{--bg:#f6f7fb;--card:#fff;--ink:#172033;--muted:#667085;--accent:#6c5ce7;--accent2:#00a896;--line:#e6e8ef;--code:#151823;--warn:#fff7df}
+*{box-sizing:border-box} body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+header{background:linear-gradient(135deg,#5b4bd8,#7c6cf2);color:#fff;padding:46px 20px}
+.wrap{max-width:1100px;margin:auto}.hero{display:grid;grid-template-columns:1.4fr .6fr;gap:28px;align-items:center}
+h1{font-size:clamp(32px,5vw,58px);line-height:1.03;margin:0 0 12px}.lead{font-size:19px;opacity:.95}
+.badge{display:inline-block;background:#ffffff22;border:1px solid #ffffff44;padding:7px 12px;border-radius:999px;margin:4px}
+nav{position:sticky;top:0;background:#ffffffee;backdrop-filter:blur(8px);z-index:3;border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;gap:8px;overflow:auto;padding:10px 16px} nav a{white-space:nowrap;text-decoration:none;color:var(--ink);padding:8px 12px;border-radius:10px}nav a:hover{background:#efedff}
+main{padding:28px 16px 60px}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px;margin:18px 0;box-shadow:0 7px 24px #1720330b}
+h2{margin-top:0;font-size:28px}h3{margin-bottom:8px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.note{background:#f0edff;border-left:5px solid var(--accent);padding:14px 16px;border-radius:10px}.teacher{background:var(--warn);border-left:5px solid #f4b400;padding:14px 16px;border-radius:10px}
+pre{background:var(--code);color:#f8f8f2;padding:17px;border-radius:13px;overflow:auto;font-size:15px;line-height:1.5}code{font-family:Consolas,monospace}
+table{width:100%;border-collapse:collapse}th,td{border-bottom:1px solid var(--line);padding:11px;text-align:left}th{background:#f8f8fc}
+.task{border:1px dashed #b7b2e9;border-radius:14px;padding:16px;margin:12px 0}.task strong{color:#5145cd}
+textarea,input[type=text]{width:100%;border:1px solid #ccd0dc;border-radius:10px;padding:12px;font:inherit;margin:7px 0}
+button{border:0;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer;background:var(--accent);color:white}button.alt{background:var(--accent2)}button.ghost{background:#eef0f5;color:#273043}
+.answer{display:none;margin-top:10px}.ok{color:#087f5b;font-weight:700}.bad{color:#c92a2a;font-weight:700}
+details{border:1px solid var(--line);padding:12px 14px;border-radius:12px;margin:10px 0}summary{cursor:pointer;font-weight:700}
+.pill{font-size:13px;background:#edf7f5;color:#087f5b;padding:4px 9px;border-radius:999px}
+footer{text-align:center;color:var(--muted);padding:30px}
+@media(max-width:760px){.hero,.grid{grid-template-columns:1fr}.card{padding:18px}}
+</style>
+</head>
+<body>
+<header>
+<div class="wrap hero">
+  <div>
+    <h1>Функції та процедури в Pascal</h1>
+    <p class="lead">Інтерактивний урок з вивчення підпрограм, передачі параметрів та повернення значень у Pascal.</p>
+  </div>
+</div>
+</header>
+
+<nav><div class="wrap">
+<a href="#built-in">Вбудовані функції</a><a href="#functions">Користувацькі функції</a><a href="#procedures">Процедури</a><a href="#params">Параметри (var)</a><a href="#scope">Область видимості</a><a href="#practice">Практика</a><a href="#test">Міні-тест</a>
+</div></nav>
+
+<main class="wrap">
+
+<section class="card" id="built-in">
+<h2>1. Вбудовані функції Pascal</h2>
+<p><b>Функція</b> — це ізольований блок коду, який приймає значення (параметри), виконує обчислення та **обов'язково повертає результат**.</p>
+<table><tr><th>Функція</th><th>Що робить</th><th>Приклад</th><th>Результат</th></tr>
+<tr><td><code>sqr(x)</code></td><td>Підношення до квадрата ($x^2$)</td><td><code>sqr(5)</code></td><td>25</td></tr>
+<tr><td><code>sqrt(x)</code></td><td>Квадратний корінь ($\sqrt{x}$)</td><td><code>sqrt(16)</code></td><td>4.0 (тип real)</td></tr>
+<tr><td><code>abs(x)</code></td><td>Модуль числа ($|x|$)</td><td><code>abs(-7)</code></td><td>7</td></tr>
+<tr><td><code>length(s)</code></td><td>Довжина рядка</td><td><code>length('Pascal')</code></td><td>6</td></tr>
+<tr><td><code>round(x)</code></td><td>Округлення до найближчого цілого</td><td><code>round(3.7)</code></td><td>4</td></tr>
+<tr><td><code>trunc(x)</code></td><td>Відкидання дробової частини</td><td><code>trunc(3.7)</code></td><td>3</td></tr></table>
+
+<div class="task"><strong>Швидка перевірка.</strong> Що поверне вираз <code>sqr(abs(-3))</code>?
+<input id="qbuiltin" type="text" placeholder="Введіть число...">
+<button class="alt" onclick="checkBuiltin()">Перевірити</button> <span id="builtinResult"></span></div>
+</section>
+
+<section class="card" id="functions">
+<h2>2. Створення власних функцій (function)</h2>
+<p>Свої функції оголошуються у блоці перед <code>begin</code> головної програми. Назва функції використовується всередині її тіла для повернення значення.</p>
+<pre><code>function НазваФункції(параметр1: тип1; параметр2: тип2): ТипРезультату;
+var
+  // локальні змінні (за потреби)
+begin
+  // дії
+  НазваФункції := результат; // повернення значення
+end;</code></pre>
+
+<h3>Приклад: Функція обчислення площі прямокутника</h3>
+<pre><code>program FunctionExample;
+
+// Оголошення функції
+function GetArea(a, b: real): real;
+begin
+  GetArea := a * b; // присвоюємо ім'ю функції результат
+end;
+
+// Головна програма
+var
+  x, y, area: real;
+begin
+  write('Введіть сторони: ');
+  readln(x, y);
+  
+  area := GetArea(x, y); // виклик функції
+  writeln('Площа: ', area:0:2);
+end.</code></pre>
+<p class="note"><b>Запам'ятай:</b> У функцій у заголовку **завжди вказується тип результату** після двокрапки <code>: real</code>, а всередині обов'язково є присвоєння значення імені функції.</p>
+</section>
+
+<section class="card" id="procedures">
+<h2>3. Процедури (procedure)</h2>
+<p><b>Процедура</b> виконує послідовність дій (наприклад, друк шаблону, очищення екрана), але **не повертає прямого значення** як вираз.</p>
+
+<div class="grid">
+<div>
+<h3>Функція</h3>
+<pre><code>function Cube(x: integer): integer;
+begin
+  Cube := x * x * x;
+end;
+
+// Виклик у виразі:
+ans := Cube(3);</code></pre>
+</div>
+<div>
+<h3>Процедура</h3>
+<pre><code>procedure PrintLine();
+begin
+  writeln('--------------------');
+end;
+
+// Виклик як окрема команда:
+PrintLine;</code></pre>
+</div>
+</div>
+<div class="teacher"><b>Для вчителя.</b> Поясніть різницю: функцію можна підставити у <code>writeln(Cube(3))</code> або математичний вираз, а процедуру викликають тільки як окремий оператор.</div>
+</section>
+
+<section class="card" id="params">
+<h2>4. Параметри-значення та параметри-змінні (var)</h2>
+<p>За замовчуванням параметри передаються за значенням (створюється копія). Якщо ми хочемо, щоб підпрограма **змінила значення переданої змінної**, використовують слово <code>var</code>.</p>
+
+<pre><code>procedure Swap(var a, b: integer); // var дозволяє змінювати оригінали
+var
+  temp: integer;
+begin
+  temp := a;
+  a := b;
+  b := temp;
+end;</code></pre>
+
+<table><tr><th>Тип передачі</th><th>Опис</th><th>Змінює початкову змінну?</th></tr>
+<tr><td>За значенням <code>(a: integer)</code></td><td>Передається копія даних</td><td>Ні</td></tr>
+<tr><td>За посиланням <code>(var a: integer)</code></td><td>Передається сама змінна</td><td>Так</td></tr></table>
+</section>
+
+<section class="card" id="scope">
+<h2>5. Локальні та глобальні змінні</h2>
+<p>Змінні, оголошені у головній програмі, є **глобальними**. Змінні, оголошені всередині функції чи процедури — **локальними** (існують тільки під час виконання цієї підпрограми).</p>
+<pre><code>program ScopeDemo;
+
+var
+  g: integer; // Глобальна змінна
+
+procedure Test;
+var
+  l: integer; // Локальна змінна
+begin
+  l := 5;
+  g := 10; // Глобальні змінні видно всюди
+end;
+
+begin
+  Test;
+  // writeln(l); -> ПОМИЛКА! Змінна 'l' тут не існує.
+end.</code></pre>
+</section>
+
+<section class="card" id="practice">
+<h2>6. Практика — пишемо самі</h2>
+
+<div class="task"><strong>Завдання 1. Максимум з двох чисел.</strong> Напишіть функцію <code>Max(a, b: integer): integer</code>, яка повертає більше з двох чисел.
+<details><summary>Код для вчителя</summary><pre><code>function Max(a, b: integer): integer;
+begin
+  if a > b then
+    Max := a
+  else
+    Max := b;
+end;</code></pre></details></div>
+
+<div class="task"><strong>Завдання 2. Перевірка парності.</strong> Створіть функцію <code>IsEven(n: integer): boolean</code>, яка повертає <code>true</code>, якщо число парне, і <code>false</code>, якщо ні.
+<details><summary>Код для вчителя</summary><pre><code>function IsEven(n: integer): boolean;
+begin
+  IsEven := (n mod 2 = 0);
+end;</code></pre></details></div>
+
+<div class="task"><strong>Завдання 3. Процедура привітання.</strong> Напишіть процедуру <code>SayHello(name: string)</code>, яка виводить рядок <code>Вітаю, <ім'я>!</code>.
+<details><summary>Код для вчителя</summary><pre><code>procedure SayHello(name: string);
+begin
+  writeln('Вітаю, ', name, '!');
+end;</code></pre></details></div>
+
+<div class="task"><strong>Завдання 4. Подвоєння значення.</strong> Створіть процедуру <code>DoubleValue(var x: integer)</code>, яка збільшує значення змінної у 2 рази.
+<details><summary>Код для вчителя</summary><pre><code>procedure DoubleValue(var x: integer);
+begin
+  x := x * 2;
+end;</code></pre></details></div>
+</section>
+
+<section class="card" id="test">
+<h2>7. Міні-тест</h2>
+<p>1. Чим функція (function) принципово відрізняється від процедури (procedure)?</p>
+<label><input type="radio" name="q1" value="a"> Функція обов'язково повертає значення</label><br>
+<label><input type="radio" name="q1" value="b"> Процедура працює швидше</label><br>
+<label><input type="radio" name="q1" value="c"> Функція не може приймати параметри</label>
+
+<p>2. Яке службове слово використовується для передачі параметра за посиланням (щоб змінити його всередині)?</p>
+<label><input type="radio" name="q2" value="a"> const</label><br>
+<label><input type="radio" name="q2" value="b"> var</label><br>
+<label><input type="radio" name="q2" value="c"> out</label>
+
+<p>3. Як правильно присвоїти результат всередині функції <code>CalcSum</code>?</p>
+<label><input type="radio" name="q3" value="a"> return a + b;</label><br>
+<label><input type="radio" name="q3" value="b"> result(a + b);</label><br>
+<label><input type="radio" name="q3" value="c"> CalcSum := a + b;</label><br><br>
+
+<button onclick="quiz()">Перевірити тест</button>
+<p id="quizResult"></p>
+</section>
+
+<section class="card">
+<h2>8. Підсумкова програма</h2>
+<p>Напишіть програму, яка містить функцію <code>Power(base, exp: integer): integer</code> для обчислення ступеня числа (наприклад, $2^3 = 8$).</p>
+<details><summary>Рішення для вчителя</summary><pre><code>program PowerProgram;
+
+function Power(base, exp: integer): integer;
+var
+  i, res: integer;
+begin
+  res := 1;
+  for i := 1 to exp do
+    res := res * base;
+  Power := res;
+end;
+
+var
+  a, b: integer;
+begin
+  write('Основа: '); readln(a);
+  write('Показник: '); readln(b);
+  
+  writeln('Результат: ', Power(a, b));
+end.</code></pre>
+<p><b>Що перевіряємо:</b> функція з кількома параметрами, локальні змінні <code>i, res</code>, цикл <code>for</code> та повернення значення через назву функції.</p></details>
+</section>
+
+<section class="card">
+<h2>9. Що учень має знати після уроку <span class="pill">checklist</span></h2>
+<label><input type="checkbox"> різницю між <code>function</code> та <code>procedure</code></label><br>
+<label><input type="checkbox"> як оголошувати функцію та повертати з неї значення</label><br>
+<label><input type="checkbox"> як використовувати вбудовані математичні функції (<code>sqr</code>, <code>sqrt</code>, <code>abs</code> тощо)</label><br>
+<label><input type="checkbox"> для чого потрібне слово <code>var</code> у параметрах підпрограми</label><br>
+<label><input type="checkbox"> різницю між локальними та глобальними змінними</label>
+</section>
+</main>
+
+<footer>Інтерактивний навчальний конспект • Pascal: урок «Функції та процедури»</footer>
+
+<script>
+function checkBuiltin(){
+ const v=document.getElementById('qbuiltin').value.trim();
+ const r=document.getElementById('builtinResult');
+ if(v==='9'){r.textContent='✓ Правильно! abs(-3) = 3, а sqr(3) = 9.';r.className='ok'}else{r.textContent='Спробуй ще. Підказка: спочатку abs(-3), потім sqr().';r.className='bad'}
+}
+function quiz(){
+ let s=0;
+ const a=document.querySelector('input[name=q1]:checked');
+ const b=document.querySelector('input[name=q2]:checked');
+ const c=document.querySelector('input[name=q3]:checked');
+ if(a&&a.value==='a')s++; if(b&&b.value==='b')s++; if(c&&c.value==='c')s++;
+ const r=document.getElementById('quizResult');
+ r.textContent='Результат: '+s+'/3'+(s===3?' — чудово!':' — переглянь теорію та спробуй ще раз.');
+ r.className=s===3?'ok':'bad';
+}
+</script>
+</body>
+</html>

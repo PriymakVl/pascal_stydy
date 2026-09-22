@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pascal з нуля — інтерактивний урок</title>
+<style>
+:root{--bg:#f6f7fb;--card:#fff;--ink:#172033;--muted:#667085;--accent:#6c5ce7;--accent2:#00a896;--line:#e6e8ef;--code:#151823;--warn:#fff7df}
+*{box-sizing:border-box} body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+header{background:linear-gradient(135deg,#5b4bd8,#7c6cf2);color:#fff;padding:46px 20px}
+.wrap{max-width:1100px;margin:auto}.hero{display:grid;grid-template-columns:1.4fr .6fr;gap:28px;align-items:center}
+h1{font-size:clamp(32px,5vw,58px);line-height:1.03;margin:0 0 12px}.lead{font-size:19px;opacity:.95}
+.badge{display:inline-block;background:#ffffff22;border:1px solid #ffffff44;padding:7px 12px;border-radius:999px;margin:4px}
+nav{position:sticky;top:0;background:#ffffffee;backdrop-filter:blur(8px);z-index:3;border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;gap:8px;overflow:auto;padding:10px 16px} nav a{white-space:nowrap;text-decoration:none;color:var(--ink);padding:8px 12px;border-radius:10px}nav a:hover{background:#efedff}
+main{padding:28px 16px 60px}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px;margin:18px 0;box-shadow:0 7px 24px #1720330b}
+h2{margin-top:0;font-size:28px}h3{margin-bottom:8px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.note{background:#f0edff;border-left:5px solid var(--accent);padding:14px 16px;border-radius:10px}.teacher{background:var(--warn);border-left:5px solid #f4b400;padding:14px 16px;border-radius:10px}
+pre{background:var(--code);color:#f8f8f2;padding:17px;border-radius:13px;overflow:auto;font-size:15px;line-height:1.5}code{font-family:Consolas,monospace}
+table{width:100%;border-collapse:collapse}th,td{border-bottom:1px solid var(--line);padding:11px;text-align:left}th{background:#f8f8fc}
+.task{border:1px dashed #b7b2e9;border-radius:14px;padding:16px;margin:12px 0}.task strong{color:#5145cd}
+textarea,input[type=text]{width:100%;border:1px solid #ccd0dc;border-radius:10px;padding:12px;font:inherit;margin:7px 0}
+button{border:0;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer;background:var(--accent);color:white}button.alt{background:var(--accent2)}button.ghost{background:#eef0f5;color:#273043}
+.answer{display:none;margin-top:10px}.ok{color:#087f5b;font-weight:700}.bad{color:#c92a2a;font-weight:700}
+details{border:1px solid var(--line);padding:12px 14px;border-radius:12px;margin:10px 0}summary{cursor:pointer;font-weight:700}
+.pill{font-size:13px;background:#edf7f5;color:#087f5b;padding:4px 9px;border-radius:999px}
+footer{text-align:center;color:var(--muted);padding:30px}
+@media(max-width:760px){.hero,.grid{grid-template-columns:1fr}.card{padding:18px}}
+</style>
+</head>
+<body>
+<header>
+<div class="wrap hero">
+  <div>
+    <h1>Основи Pascal</h1>
+    <p class="lead">Інтерактивний урок з вивчення базових понять та синтаксису мови Pascal.</p>
+  </div>
+</div>
+</header>
+
+<nav><div class="wrap">
+<a href="#structure">Структура</a><a href="#variables">Змінні</a><a href="#types">Типи</a><a href="#io">Ввід/вивід</a><a href="#math">Обчислення</a><a href="#practice">Практика</a><a href="#test">Міні-тест</a>
+</div></nav>
+
+<main class="wrap">
+
+<section class="card" id="structure">
+<h2>1. Будова програми</h2>
+<pre><code>program FirstProgram;   { назва програми }
+
+var                     { блок змінних }
+  age: integer;
+
+begin                   { початок команд }
+  age := 14;
+  writeln('Age: ', age);
+end.                    { кінець програми }</code></pre>
+<table><tr><th>Елемент</th><th>Що означає</th></tr>
+<tr><td><code>program</code></td><td>назва програми; у сучасних середовищах рядок часто можна опустити</td></tr>
+<tr><td><code>var</code></td><td>блок оголошення змінних</td></tr>
+<tr><td><code>begin</code></td><td>початок блоку команд</td></tr>
+<tr><td><code>end.</code></td><td>кінець головної програми; тут саме крапка</td></tr>
+<tr><td><code>;</code></td><td>розділяє оператори/оголошення</td></tr></table>
+<p class="note"><b>Запам'ятай:</b> Pascal любить чітку структуру. Спочатку оголошуємо потрібні дані, потім у <code>begin ... end.</code> пишемо дії.</p>
+</section>
+
+<section class="card" id="variables">
+<h2>2. Змінні</h2>
+<p><b>Змінна</b> — це іменоване місце для збереження значення. Синтаксис оголошення:</p>
+<pre><code>var
+  ім'я_змінної: тип;</code></pre>
+<p>Кілька змінних одного типу можна оголосити разом:</p>
+<pre><code>var
+  a, b, sum: integer;
+  name: string;</code></pre>
+<h3>Присвоєння значення</h3>
+<pre><code>a := 10;
+name := 'Max';</code></pre>
+<div class="teacher"><b>Пояснення синтаксису.</b> <code>:</code> читаємо як «має тип», а <code>:=</code> — «отримати/присвоїти значення». Тобто <code>age: integer</code> — age має тип integer; <code>age := 14</code> — age отримує 14.</div>
+<div class="task"><strong>Швидка практика.</strong> Оголоси змінні <code>studentName</code>, <code>age</code> і <code>height</code> для імені, віку та зросту.
+<textarea id="t1" rows="5" placeholder="var&#10;  ..."></textarea>
+<button onclick="show('a1')">Показати приклад</button>
+<div class="answer" id="a1"><pre><code>var
+  studentName: string;
+  age: integer;
+  height: real;</code></pre></div></div>
+</section>
+
+<section class="card" id="types">
+<h2>3. Основні типи даних</h2>
+<table><tr><th>Pascal</th><th>Для чого</th><th>Приклад</th></tr>
+<tr><td><code>integer</code></td><td>цілі числа</td><td>5, -12, 100</td></tr>
+<tr><td><code>real</code></td><td>дробові числа</td><td>3.14, 1.5</td></tr>
+<tr><td><code>string</code></td><td>рядок/текст</td><td>'Hello'</td></tr>
+<tr><td><code>char</code></td><td>один символ</td><td>'A'</td></tr>
+<tr><td><code>boolean</code></td><td>логічне значення</td><td>true, false</td></tr></table>
+<div class="task"><strong>Обери тип.</strong> Який тип краще для кількості учнів?
+<input id="qtype" type="text" placeholder="Напиши тип...">
+<button class="alt" onclick="checkType()">Перевірити</button> <span id="typeResult"></span></div>
+</section>
+
+<section class="card" id="io">
+<h2>4. Виведення та введення</h2>
+<div class="grid">
+<div><h3>Виведення</h3><pre><code>write('Hello');
+writeln('Hello');</code></pre><p><code>writeln</code> після виведення переходить на новий рядок, <code>write</code> — ні.</p></div>
+<div><h3>Введення</h3><pre><code>readln(age);</code></pre><p>Програма чекає, поки користувач введе значення, і записує його у змінну.</p></div>
+</div>
+<h3>Повна програма</h3>
+<pre><code>program UserInfo;
+
+var
+  name: string;
+  age: integer;
+
+begin
+  write('Enter your name: ');
+  readln(name);
+
+  write('Enter your age: ');
+  readln(age);
+
+  writeln('Hello, ', name, '!');
+  writeln('You are ', age, ' years old.');
+end.</code></pre>
+<div class="teacher"><b>Для вчителя.</b> Пройдіть код зверху вниз. Попросіть учня перед запуском спрогнозувати, на якому рядку програма зупиниться та чекатиме користувача.</div>
+</section>
+
+<section class="card" id="math">
+<h2>5. Арифметика</h2>
+<table><tr><th>Операція</th><th>Pascal</th><th>Приклад</th></tr>
+<tr><td>додавання</td><td><code>+</code></td><td><code>a + b</code></td></tr>
+<tr><td>віднімання</td><td><code>-</code></td><td><code>a - b</code></td></tr>
+<tr><td>множення</td><td><code>*</code></td><td><code>a * b</code></td></tr>
+<tr><td>звичайне ділення</td><td><code>/</code></td><td><code>7 / 2</code></td></tr>
+<tr><td>цілочисельне ділення</td><td><code>div</code></td><td><code>7 div 2 = 3</code></td></tr>
+<tr><td>остача</td><td><code>mod</code></td><td><code>7 mod 2 = 1</code></td></tr></table>
+<pre><code>program Calculator;
+
+var
+  a, b: integer;
+
+begin
+  write('a = ');
+  readln(a);
+  write('b = ');
+  readln(b);
+
+  writeln('Sum = ', a + b);
+  writeln('Difference = ', a - b);
+  writeln('Product = ', a * b);
+  writeln('Integer division = ', a div b);
+  writeln('Remainder = ', a mod b);
+end.</code></pre>
+<p class="note">У Pascal <code>div</code> і <code>mod</code> особливо важливі для задач із цілими числами. Не використовуйте <code>div</code>, якщо дільник дорівнює нулю.</p>
+</section>
+
+<section class="card">
+<h2>6. Форматування дробових чисел</h2>
+<pre><code>var
+  price: real;
+
+begin
+  price := 12.34567;
+  writeln(price:0:2);
+end.</code></pre>
+<p><code>:0:2</code> означає: вивести число з <b>2 цифрами після десяткової крапки</b>. Результат: <code>12.35</code>.</p>
+</section>
+
+<section class="card" id="practice">
+<h2>7. Практика — пишемо самі</h2>
+<div class="task"><strong>Завдання 1. Візитівка.</strong> Користувач вводить ім'я та вік. Програма вітається і показує дані.
+<details><summary>Код для вчителя</summary><pre><code>program Card;
+
+var
+  name: string;
+  age: integer;
+
+begin
+  write('Name: ');
+  readln(name);
+  write('Age: ');
+  readln(age);
+
+  writeln('Hello, ', name, '!');
+  writeln('Age: ', age);
+end.</code></pre></details></div>
+
+<div class="task"><strong>Завдання 2. Сума двох чисел.</strong> Ввести два цілі числа та знайти їх суму.
+<details><summary>Код для вчителя + пояснення</summary><pre><code>program SumTwo;
+
+var
+  a, b, result: integer;
+
+begin
+  readln(a);
+  readln(b);
+  result := a + b;
+  writeln('Result = ', result);
+end.</code></pre>
+<p><code>result := a + b;</code> — спочатку Pascal обчислює праву частину, потім записує результат у <code>result</code>.</p></details></div>
+
+<div class="task"><strong>Завдання 3. Прямокутник.</strong> Ввести довжину і ширину. Обчислити площу та периметр.
+<details><summary>Код для вчителя</summary><pre><code>program Rectangle;
+
+var
+  a, b, area, perimeter: real;
+
+begin
+  write('Length: ');
+  readln(a);
+  write('Width: ');
+  readln(b);
+
+  area := a * b;
+  perimeter := 2 * (a + b);
+
+  writeln('Area = ', area:0:2);
+  writeln('Perimeter = ', perimeter:0:2);
+end.</code></pre></details></div>
+
+<div class="task"><strong>Завдання 4. Вік наступного року.</strong> Учень вводить свій вік. Програма показує, скільки буде наступного року.
+<details><summary>Рішення</summary><pre><code>program NextAge;
+
+var
+  age: integer;
+
+begin
+  write('Your age: ');
+  readln(age);
+  writeln('Next year you will be ', age + 1);
+end.</code></pre></details></div>
+
+<div class="task"><strong>Завдання 5. Секунди.</strong> Ввести кількість хвилин та перевести її в секунди.
+<details><summary>Рішення</summary><pre><code>program MinutesToSeconds;
+
+var
+  minutes, seconds: integer;
+
+begin
+  write('Minutes: ');
+  readln(minutes);
+  seconds := minutes * 60;
+  writeln('Seconds = ', seconds);
+end.</code></pre></details></div>
+</section>
+
+<section class="card" id="test">
+<h2>8. Міні-тест</h2>
+<p>1. Який оператор використовується для присвоєння?</p>
+<label><input type="radio" name="q1" value="a"> =</label><br>
+<label><input type="radio" name="q1" value="b"> :=</label><br>
+<label><input type="radio" name="q1" value="c"> ==</label>
+<p>2. Який тип підходить для <code>15.75</code>?</p>
+<label><input type="radio" name="q2" value="a"> integer</label><br>
+<label><input type="radio" name="q2" value="b"> real</label><br>
+<label><input type="radio" name="q2" value="c"> boolean</label>
+<p>3. Яка команда читає значення з клавіатури?</p>
+<label><input type="radio" name="q3" value="a"> writeln</label><br>
+<label><input type="radio" name="q3" value="b"> print</label><br>
+<label><input type="radio" name="q3" value="c"> readln</label><br><br>
+<button onclick="quiz()">Перевірити тест</button>
+<p id="quizResult"></p>
+</section>
+
+<section class="card">
+<h2>9. Підсумкова програма</h2>
+<p>Напишіть мініпрограму «Покупка»: користувач вводить назву товару, ціну та кількість. Програма обчислює загальну вартість.</p>
+<details><summary>Рішення для вчителя</summary><pre><code>program Purchase;
+
+var
+  productName: string;
+  price, total: real;
+  quantity: integer;
+
+begin
+  write('Product: ');
+  readln(productName);
+
+  write('Price: ');
+  readln(price);
+
+  write('Quantity: ');
+  readln(quantity);
+
+  total := price * quantity;
+
+  writeln('Product: ', productName);
+  writeln('Total: ', total:0:2);
+end.</code></pre>
+<p><b>Що перевіряємо:</b> string, integer, real, <code>var</code>, <code>readln</code>, <code>writeln</code>, присвоєння та множення.</p></details>
+</section>
+
+<section class="card">
+<h2>10. Що учень має знати після уроку <span class="pill">checklist</span></h2>
+<label><input type="checkbox"> де оголошуються змінні</label><br>
+<label><input type="checkbox"> різницю між integer, real, string, char, boolean</label><br>
+<label><input type="checkbox"> різницю між <code>:</code> та <code>:=</code></label><br>
+<label><input type="checkbox"> як працюють readln, write, writeln</label><br>
+<label><input type="checkbox"> як виконувати базові обчислення</label><br>
+<label><input type="checkbox"> як виглядає структура <code>begin ... end.</code></label>
+</section>
+</main>
+
+<footer>Інтерактивний навчальний конспект • Pascal: урок 1</footer>
+<script>
+function show(id){document.getElementById(id).style.display='block'}
+function checkType(){
+ const v=document.getElementById('qtype').value.trim().toLowerCase();
+ const r=document.getElementById('typeResult');
+ if(v==='integer'){r.textContent='✓ Правильно!';r.className='ok'}else{r.textContent='Спробуй ще. Підказка: це ціле число.';r.className='bad'}
+}
+function quiz(){
+ let s=0;
+ const a=document.querySelector('input[name=q1]:checked');
+ const b=document.querySelector('input[name=q2]:checked');
+ const c=document.querySelector('input[name=q3]:checked');
+ if(a&&a.value==='b')s++; if(b&&b.value==='b')s++; if(c&&c.value==='c')s++;
+ const r=document.getElementById('quizResult');
+ r.textContent='Результат: '+s+'/3'+(s===3?' — чудово!':' — переглянь теорію та спробуй ще раз.');
+ r.className=s===3?'ok':'bad';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pascal: Процедури — інтерактивний урок</title>
+<style>
+:root{--bg:#f6f7fb;--card:#fff;--ink:#172033;--muted:#667085;--accent:#6c5ce7;--accent2:#00a896;--line:#e6e8ef;--code:#151823;--warn:#fff7df}
+*{box-sizing:border-box} body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+header{background:linear-gradient(135deg,#5b4bd8,#7c6cf2);color:#fff;padding:46px 20px}
+.wrap{max-width:1100px;margin:auto}.hero{display:grid;grid-template-columns:1.4fr .6fr;gap:28px;align-items:center}
+h1{font-size:clamp(32px,5vw,58px);line-height:1.03;margin:0 0 12px}.lead{font-size:19px;opacity:.95}
+.badge{display:inline-block;background:#ffffff22;border:1px solid #ffffff44;padding:7px 12px;border-radius:999px;margin:4px}
+nav{position:sticky;top:0;background:#ffffffee;backdrop-filter:blur(8px);z-index:3;border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;gap:8px;overflow:auto;padding:10px 16px} nav a{white-space:nowrap;text-decoration:none;color:var(--ink);padding:8px 12px;border-radius:10px}nav a:hover{background:#efedff}
+main{padding:28px 16px 60px}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px;margin:18px 0;box-shadow:0 7px 24px #1720330b}
+h2{margin-top:0;font-size:28px}h3{margin-bottom:8px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.note{background:#f0edff;border-left:5px solid var(--accent);padding:14px 16px;border-radius:10px}.teacher{background:var(--warn);border-left:5px solid #f4b400;padding:14px 16px;border-radius:10px}
+pre{background:var(--code);color:#f8f8f2;padding:17px;border-radius:13px;overflow:auto;font-size:15px;line-height:1.5}code{font-family:Consolas,monospace}
+table{width:100%;border-collapse:collapse}th,td{border-bottom:1px solid var(--line);padding:11px;text-align:left}th{background:#f8f8fc}
+.task{border:1px dashed #b7b2e9;border-radius:14px;padding:16px;margin:12px 0}.task strong{color:#5145cd}
+textarea,input[type=text]{width:100%;border:1px solid #ccd0dc;border-radius:10px;padding:12px;font:inherit;margin:7px 0}
+button{border:0;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer;background:var(--accent);color:white}button.alt{background:var(--accent2)}button.ghost{background:#eef0f5;color:#273043}
+.answer{display:none;margin-top:10px}.ok{color:#087f5b;font-weight:700}.bad{color:#c92a2a;font-weight:700}
+details{border:1px solid var(--line);padding:12px 14px;border-radius:12px;margin:10px 0}summary{cursor:pointer;font-weight:700}
+.pill{font-size:13px;background:#edf7f5;color:#087f5b;padding:4px 9px;border-radius:999px}
+footer{text-align:center;color:var(--muted);padding:30px}
+@media(max-width:760px){.hero,.grid{grid-template-columns:1fr}.card{padding:18px}}
+</style>
+</head>
+<body>
+<header>
+<div class="wrap hero">
+  <div>
+    <h1>Процедури в Pascal</h1>
+    <p class="lead">Інтерактивний урок з вивчення допоміжних алгоритмів, параметрів та підпрограм у мові Pascal.</p>
+  </div>
+</div>
+</header>
+
+<nav><div class="wrap">
+<a href="#intro">Що таке процедура</a><a href="#syntax">Синтаксис</a><a href="#params">Параметри</a><a href="#var-params">Параметри-змінні (var)</a><a href="#scope">Область видимості</a><a href="#practice">Практика</a><a href="#test">Міні-тест</a>
+</div></nav>
+
+<main class="wrap">
+
+<section class="card" id="intro">
+<h2>1. Що таке процедура?</h2>
+<p><b>Процедура</b> — це окрема допоміжна частина програми (підпрограма), яка має власне ім'я та виконує певну послідовність дій. Вона допомагає розбити велику задачу на менші та уникнути дублювання коду.</p>
+<div class="note"><b>Переваги використання процедур:</b>
+  <ul>
+    <li>Повторне використання коду (написав один раз — викликаєш багато разів).</li>
+    <li>Покращення читабельності програми.</li>
+    <li>Легший пошук та виправлення помилок.</li>
+  </ul>
+</div>
+</section>
+
+<section class="card" id="syntax">
+<h2>2. Синтаксис оголошення процедури</h2>
+<p>Оголошення процедури розміщується у блоці оголошень — **перед** основним `begin` головної програми.</p>
+<pre><code>program ProcedureExample;
+
+{ Оголошення процедури }
+procedure Greet;
+begin
+  writeln('--------------------');
+  writeln('Ласкаво просимо!');
+  writeln('--------------------');
+end;
+
+{ Головна програма }
+begin
+  Greet; { Виклик процедури }
+  writeln('Основний блок програми');
+  Greet; { Повторний виклик }
+end.</code></pre>
+<table><tr><th>Елемент</th><th>Опис</th></tr>
+<tr><td><code>procedure</code></td><td>Ключове слово для початку оголошення процедури</td></tr>
+<tr><td><code>Greet</code></td><td>Ім'я процедури (вибирається за тими ж правилами, що й назви змінних)</td></tr>
+<tr><td><code>end;</code></td><td>Завершення процедури (зверніть увагу: після <code>end</code> ставиться крапка з комою <code>;</code>)</td></tr></table>
+</section>
+
+<section class="card" id="params">
+<h2>3. Передача параметрів (параметри-значення)</h2>
+<p>Процедури можуть отримувати вхідні дані для обробки. Змінні, що вказуються при оголошенні процедури, називаються <b>формальними параметрами</b>, а значення, що передаються під час виклику — <b>фактичними параметрами</b>.</p>
+<pre><code>program PrintMessage;
+
+procedure SayHello(name: string; age: integer);
+begin
+  writeln('Привіт, ', name, '! Тобі ', age, ' років.');
+end;
+
+begin
+  SayHello('Олексій', 15); { Передаємо конкретні значення }
+  SayHello('Марія', 16);
+end.</code></pre>
+<div class="teacher"><b>Пояснення для учнів:</b> При виклику `SayHello('Олексій', 15)` значення `'Олексій'` копіюється у змінну `name`, а `15` — у змінну `age`. Якщо змінити `name` всередині процедури, це **не вплине** на оригінальні дані поза нею.</div>
+
+<div class="task"><strong>Швидка практика.</strong> Напиши оголошення процедури `PrintSquare`, яка приймає одне ціле число `x` і виводить його квадрат.
+<textarea id="t1" rows="5" placeholder="procedure PrintSquare..."></textarea>
+<button onclick="show('a1')">Показати приклад</button>
+<div class="answer" id="a1"><pre><code>procedure PrintSquare(x: integer);
+begin
+  writeln('Квадрат числа ', x, ' = ', x * x);
+end;</code></pre></div></div>
+</section>
+
+<section class="card" id="var-params">
+<h2>4. Параметри-змінні (з ключевим словом var)</h2>
+<p>Якщо потрібно, щоб процедура змінила значення змінної, яку їй передали з головної програми, перед параметром ставлять слово <code>var</code>. Це передача <b>за посиланням</b>.</p>
+<div class="grid">
+<div><h3>Передача за значенням</h3><pre><code>procedure IncByOne(a: integer);
+begin
+  a := a + 1; { змінюється лише копія }
+end;</code></pre></div>
+<div><h3>Передача за посиланням (var)</h3><pre><code>procedure IncByOne(var a: integer);
+begin
+  a := a + 1; { змінює оригінальну змінну! }
+end;</code></pre></div>
+</div>
+
+<h3>Приклад роботи з `var`:</h3>
+<pre><code>program SwapNumbers;
+
+var
+  x, y: integer;
+
+procedure Swap(var a, b: integer);
+var
+  temp: integer; { локальна змінна }
+begin
+  temp := a;
+  a := b;
+  b := temp;
+end;
+
+begin
+  x := 5; y := 10;
+  writeln('До: x = ', x, ', y = ', y);
+  Swap(x, y);
+  writeln('Після: x = ', x, ', y = ', y);
+end.</code></pre>
+<div class="task"><strong>Перевірка розуміння.</strong> Яке значення виведе `writeln`, якщо використовувати `var`?
+<input id="qvar" type="text" placeholder="Що буде виведено для x після Swap(x, y)?">
+<button class="alt" onclick="checkVar()">Перевірити</button> <span id="varResult"></span></div>
+</section>
+
+<section class="card" id="scope">
+<h2>5. Локальні та глобальні змінні</h2>
+<table><tr><th>Тип змінної</th><th>Де оголошена</th><th>Де доступна</th></tr>
+<tr><td><b>Глобальні</b></td><td>У блоці <code>var</code> головної програми</td><td>У всій програмі (включаючи процедури)</td></tr>
+<tr><td><b>Локальні</b></td><td>Всередині процедури (у її власному блоці <code>var</code>)</td><td>Тільки всередині цієї процедури</td></tr></table>
+<pre><code>program ScopeExample;
+
+var
+  g: integer; { Глобальна змінна }
+
+procedure TestScope;
+var
+  loc: integer; { Локальна змінна }
+begin
+  loc := 100;
+  g := 50; { Можна змінювати глобальну змінну }
+  writeln('Локальна loc = ', loc);
+end;
+
+begin
+  TestScope;
+  { loc := 10; } <--- ПОМИЛКА! Змінна loc тут не існує!
+end.</code></pre>
+<p class="note"><b>Порада:</b> Намагайтеся використовувати локальні змінні всередині процедур та уникати прямої зміни глобальних змінних без потреби.</p>
+</section>
+
+<section class="card" id="practice">
+<h2>6. Практика — пишемо самі</h2>
+
+<div class="task"><strong>Завдання 1. Рамка для тексту.</strong> Написати процедуру `DrawLine`, яка виводить лінію з 20 зірочок (`*`). Викликати її 3 рази.
+<details><summary>Код для вчителя</summary><pre><code>program StarLine;
+
+procedure DrawLine;
+var
+  i: integer;
+begin
+  for i := 1 to 20 do
+    write('*');
+  writeln;
+end;
+
+begin
+  DrawLine;
+  writeln(' Заголовок ');
+  DrawLine;
+end.</code></pre></details></div>
+
+<div class="task"><strong>Завдання 2. Периметр і площа прямокутника.</strong> Написати процедуру `CalcRect(a, b: real)`, яка обчислює та виводить площу і периметр прямокутника зі сторонами `a` та `b`.
+<details><summary>Код для вчителя</summary><pre><code>program RectangleCalc;
+
+procedure CalcRect(a, b: real);
+var
+  p, s: real;
+begin
+  p := 2 * (a + b);
+  s := a * b;
+  writeln('Периметр: ', p:0:2);
+  writeln('Площа: ', s:0:2);
+end;
+
+var
+  x, y: real;
+begin
+  write('Введіть довжину та ширину: ');
+  readln(x, y);
+  CalcRect(x, y);
+end.</code></pre></details></div>
+
+<div class="task"><strong>Завдання 3. Максимум з двох чисел.</strong> Написати процедуру `FindMax(a, b: integer; var max: integer)`, яка повертає найбільше з двох чисел у змінну `max`.
+<details><summary>Код для вчителя</summary><pre><code>program MaxTwo;
+
+procedure FindMax(a, b: integer; var max: integer);
+begin
+  if a > b then
+    max := a
+  else
+    max := b;
+end;
+
+var
+  n1, n2, result: integer;
+begin
+  write('Введіть два числа: ');
+  readln(n1, n2);
+  FindMax(n1, n2, result);
+  writeln('Більше число: ', result);
+end.</code></pre></details></div>
+</section>
+
+<section class="card" id="test">
+<h2>7. Міні-тест</h2>
+<p>1. Де в коді програми оголошуються процедури?</p>
+<label><input type="radio" name="q1" value="a"> У будь-якому місці після end.</label><br>
+<label><input type="radio" name="q1" value="b"> Перед головним begin програми</label><br>
+<label><input type="radio" name="q1" value="c"> Всередині головного begin...end</label>
+
+<p>2. Яке слово використовується для передачі параметрів за посиланням (щоб змінити оригінальну змінну)?</p>
+<label><input type="radio" name="q2" value="a"> var</label><br>
+<label><input type="radio" name="q2" value="b"> const</label><br>
+<label><input type="radio" name="q2" value="c"> out</label>
+
+<p>3. Чи доступна локальна змінна процедури в головній програмі?</p>
+<label><input type="radio" name="q3" value="a"> Так, завжди</label><br>
+<label><input type="radio" name="q3" value="b"> Ні, вона існує тільки всередині процедури</label><br>
+<label><input type="radio" name="q3" value="c"> Тільки якщо вона має тип integer</label><br><br>
+<button onclick="quiz()">Перевірити тест</button>
+<p id="quizResult"></p>
+</section>
+
+<section class="card">
+<h2>8. Що учень має знати після уроку <span class="pill">checklist</span></h2>
+<label><input type="checkbox"> Що таке процедура та навіщо вона потрібна</label><br>
+<label><input type="checkbox"> Як оголосити процедуру та викликати її</label><br>
+<label><input type="checkbox"> Різницю між формальними та фактичними параметрами</label><br>
+<label><input type="checkbox"> Для чого використовується модифікатор <code>var</code> у параметрах</label><br>
+<label><input type="checkbox"> Різницю між локальними та глобальними змінними</label>
+</section>
+</main>
+
+<footer>Інтерактивний навчальний конспект • Pascal: урок «Процедури»</footer>
+
+<script>
+function show(id){document.getElementById(id).style.display='block'}
+function checkVar(){
+ const v=document.getElementById('qvar').value.trim();
+ const r=document.getElementById('varResult');
+ if(v==='10'){r.textContent='✓ Правильно! Значення x змінилося на 10.';r.className='ok'}else{r.textContent='Спробуй ще. Підказка: початкове x дорівнювало 5, y дорівнювало 10.';r.className='bad'}
+}
+function quiz(){
+ let s=0;
+ const a=document.querySelector('input[name=q1]:checked');
+ const b=document.querySelector('input[name=q2]:checked');
+ const c=document.querySelector('input[name=q3]:checked');
+ if(a&&a.value==='b')s++; if(b&&b.value==='a')s++; if(c&&c.value==='b')s++;
+ const r=document.getElementById('quizResult');
+ r.textContent='Результат: '+s+'/3'+(s===3?' — чудово!':' — переглянь теорію та спробуй ще раз.');
+ r.className=s===3?'ok':'bad';
+}
+</script>
+</body>
+</html>

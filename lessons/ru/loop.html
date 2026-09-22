@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Циклы в Pascal — интерактивный урок</title>
+<style>
+:root{--bg:#f6f7fb;--card:#fff;--ink:#172033;--muted:#667085;--accent:#6c5ce7;--accent2:#00a896;--line:#e6e8ef;--code:#151823;--warn:#fff7df}
+*{box-sizing:border-box} body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+header{background:linear-gradient(135deg,#5b4bd8,#7c6cf2);color:#fff;padding:46px 20px}
+.wrap{max-width:1100px;margin:auto}.hero{display:grid;grid-template-columns:1.4fr .6fr;gap:28px;align-items:center}
+h1{font-size:clamp(32px,5vw,58px);line-height:1.03;margin:0 0 12px}.lead{font-size:19px;opacity:.95}
+.badge{display:inline-block;background:#ffffff22;border:1px solid #ffffff44;padding:7px 12px;border-radius:999px;margin:4px}
+nav{position:sticky;top:0;background:#ffffffee;backdrop-filter:blur(8px);z-index:3;border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;gap:8px;overflow:auto;padding:10px 16px} nav a{white-space:nowrap;text-decoration:none;color:var(--ink);padding:8px 12px;border-radius:10px}nav a:hover{background:#efedff}
+main{padding:28px 16px 60px}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px;margin:18px 0;box-shadow:0 7px 24px #1720330b}
+h2{margin-top:0;font-size:28px}h3{margin-bottom:8px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.note{background:#f0edff;border-left:5px solid var(--accent);padding:14px 16px;border-radius:10px}.teacher{background:var(--warn);border-left:5px solid #f4b400;padding:14px 16px;border-radius:10px}
+pre{background:var(--code);color:#f8f8f2;padding:17px;border-radius:13px;overflow:auto;font-size:15px;line-height:1.5}code{font-family:Consolas,monospace}
+table{width:100%;border-collapse:collapse}th,td{border-bottom:1px solid var(--line);padding:11px;text-align:left}th{background:#f8f8fc}
+.task{border:1px dashed #b7b2e9;border-radius:14px;padding:16px;margin:12px 0}.task strong{color:#5145cd}
+textarea,input[type=text]{width:100%;border:1px solid #ccd0dc;border-radius:10px;padding:12px;font:inherit;margin:7px 0}
+button{border:0;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer;background:var(--accent);color:white}button.alt{background:var(--accent2)}button.ghost{background:#eef0f5;color:#273043}
+.answer{display:none;margin-top:10px}.ok{color:#087f5b;font-weight:700}.bad{color:#c92a2a;font-weight:700}
+details{border:1px solid var(--line);padding:12px 14px;border-radius:12px;margin:10px 0}summary{cursor:pointer;font-weight:700}
+.pill{font-size:13px;background:#edf7f5;color:#087f5b;padding:4px 9px;border-radius:999px}
+footer{text-align:center;color:var(--muted);padding:30px}
+@media(max-width:760px){.hero,.grid{grid-template-columns:1fr}.card{padding:18px}}
+</style>
+</head>
+<body>
+<header>
+<div class="wrap hero">
+  <div>
+    <h1>Циклы в Pascal</h1>
+    <p class="lead">Интерактивный урок по изучению циклических конструкций: <code>for</code>, <code>while</code> и <code>repeat-until</code>.</p>
+  </div>
+</div>
+</header>
+
+<nav><div class="wrap">
+<a href="#intro">Введение</a><a href="#for">Цикл FOR</a><a href="#while">Цикл WHILE</a><a href="#repeat">Цикл REPEAT</a><a href="#compare">Сравнение</a><a href="#practice">Практика</a><a href="#test">Мини-тест</a>
+</div></nav>
+
+<main class="wrap">
+
+<section class="card" id="intro">
+<h2>1. Что такое цикл?</h2>
+<p><b>Цикл</b> — это конструкция языка, которая позволяет repeating (повторять) выполнение одного и того же блока кода несколько раз.</p>
+<p class="note"><b>Запомни:</b> В Pascal есть 3 основных вида циклов:
+  <ul>
+    <li><code>for</code> — цикл со счетчиком (когда число повторений известно заранее).</li>
+    <li><code>while</code> — цикл с предусловием (проверяет условие ПЕРЕД выполнением).</li>
+    <li><code>repeat-until</code> — цикл с постусловием (проверяет условие ПОСЛЕ выполнения).</li>
+  </ul>
+</p>
+</section>
+
+<section class="card" id="for">
+<h2>2. Цикл с параметром (FOR)</h2>
+<p>Используется, когда мы точно знаем, сколько раз должен выполниться цикл[cite: 1]. Счетчик автоматически увеличивается (или уменьшается) на 1[cite: 1].</p>
+
+<h3>Синтаксис (прямой порядок):</h3>
+<pre><code>for i := 1 to 5 do
+begin
+  writeln('Шаг: ', i);
+end;</code></pre>
+
+<h3>Синтаксис (обратный порядок):</h3>
+<pre><code>for i := 5 downto 1 do
+begin
+  writeln('Обратный отсчет: ', i);
+end;</code></pre>
+
+<div class="teacher"><b>Пояснение синтаксиса.</b> Если внутри цикла выполняются несколько команд, их обязательно нужно объединять в блок <code>begin ... end;</code>. Если команда всего одна, <code>begin/end</code> можно опустить[cite: 1].</div>
+
+<div class="task"><strong>Быстрая практика.</strong> Напиши заголовок цикла <code>for</code>, который считает от 10 до 20 включительно.
+<textarea id="t1" rows="3" placeholder="for ... do"></textarea>
+<button onclick="show('a1')">Показать ответ</button>
+<div class="answer" id="a1"><pre><code>for i := 10 to 20 do</code></pre></div></div>
+</section>
+
+<section class="card" id="while">
+<h2>3. Цикл с предусловием (WHILE)</h2>
+<p>Цикл выполняется <b>пока</b> условие истинно (<code>true</code>). Условие проверяется перед началом каждой итерации.</p>
+<pre><code>program WhileExample;
+
+var
+  i: integer;
+
+begin
+  i := 1;
+  while i <= 5 do
+  begin
+    writeln('i = ', i);
+    i := i + 1; // Обязательно меняем условие, иначе цикл будет бесконечным!
+  end;
+end.</code></pre>
+<p class="note"><b>Важно:</b> Если условие изначально ложно (<code>false</code>), тело цикла <b>ни разу</b> не выполнится!</p>
+</section>
+
+<section class="card" id="repeat">
+<h2>4. Цикл с постусловием (REPEAT-UNTIL)</h2>
+<p>Цикл выполняется, а затем проверяется условие. Повторение продолжается <b>до тех пор, пока условие не станет истинным</b> (<code>true</code>).</p>
+<pre><code>program RepeatExample;
+
+var
+  password: string;
+
+begin
+  repeat
+    write('Введите пароль: ');
+    readln(password);
+  until password = '1234';
+  
+  writeln('Доступ разрешен!');
+end.</code></pre>
+
+<div class="teacher"><b>Обрати внимание:</b>
+  <ul>
+    <li>Тело цикла <code>repeat-until</code> всегда выполняется <b>как минимум 1 раз</b>.</li>
+    <li>Для нескольких команд внутри <code>repeat ... until</code> писать <code>begin ... end</code> НЕ требуется!</li>
+  </ul>
+</div>
+</section>
+
+<section class="card" id="compare">
+<h2>5. Сравнение типов циклов</h2>
+<table>
+  <tr><th>Цикл</th><th>Когда использовать</th><th>Количество повторов</th></tr>
+  <tr><td><code>for</code></td><td>Известно точное число повторений</td><td>Фиксированное (0 или больше)</td></tr>
+  <tr><td><code>while</code></td><td>Число повторов неизвестно, проверка ДО действия</td><td>От 0 до бесконечности</td></tr>
+  <tr><td><code>repeat-until</code></td><td>Нужно хотя бы 1 раз выполнить действие (например, ввод пароля)</td><td>От 1 до бесконечности</td></tr>
+</table>
+</section>
+
+<section class="card" id="practice">
+<h2>6. Практика — пишем сами</h2>
+
+<div class="task"><strong>Задание 1. Таблица умножения.</strong> Вывести таблицу умножения на 5 для чисел от 1 до 10 с помощью цикла <code>for</code>.
+<details><summary>Код решения</summary><pre><code>program MultiplicationTable;
+
+var
+  i: integer;
+
+begin
+  for i := 1 to 10 do
+  begin
+    writeln('5 x ', i, ' = ', 5 * i);
+  end;
+end.</code></pre></details></div>
+
+<div class="task"><strong>Задание 2. Сумма чисел.</strong> Вычислить сумму всех целых чисел от 1 до N (число N вводит пользователь).
+<details><summary>Код решения</summary><pre><code>program SumN;
+
+var
+  i, n, sum: integer;
+
+begin
+  write('Введите N: ');
+  readln(n);
+  
+  sum := 0;
+  for i := 1 to n do
+    sum := sum + i;
+    
+  writeln('Сумма от 1 до ', n, ' = ', sum);
+end.</code></pre></details></div>
+
+<div class="task"><strong>Задание 3. Защита от ввода.</strong> Просить пользователя ввести положительное число. Повторять запрос, пока число &le; 0.
+<details><summary>Код решения</summary><pre><code>program PositiveInput;
+
+var
+  num: integer;
+
+begin
+  repeat
+    write('Введите число больше 0: ');
+    readln(num);
+  until num > 0;
+  
+  writeln('Спасибо! Вы ввели: ', num);
+end.</code></pre></details></div>
+</section>
+
+<section class="card" id="test">
+<h2>7. Мини-тест</h2>
+<p>1. Какой цикл выполнится хотя бы один раз при любых условиях?</p>
+<label><input type="radio" name="q1" value="a"> for</label><br>
+<label><input type="radio" name="q1" value="b"> while</label><br>
+<label><input type="radio" name="q1" value="c"> repeat-until</label>
+
+<p>2. Что произойдет, если в цикле <code>while</code> не изменять переменные из условия?</p>
+<label><input type="radio" name="q2" value="a"> Ошибка компиляции</label><br>
+<label><input type="radio" name="q2" value="b"> Бесконечный цикл</label><br>
+<label><input type="radio" name="q2" value="c"> Цикл завершится сразу</label>
+
+<p>3. На сколько изменяется шаг счетчика в цикле <code>for i := 1 to 10 do</code>?</p>
+<label><input type="radio" name="q3" value="a"> На +1</label><br>
+<label><input type="radio" name="q3" value="b"> На +2</label><br>
+<label><input type="radio" name="q3" value="c"> На любое заданное число</label><br><br>
+
+<button onclick="quiz()">Проверить тест</button>
+<p id="quizResult"></p>
+</section>
+
+<section class="card">
+<h2>8. Что нужно знать после урока <span class="pill">checklist</span></h2>
+<label><input type="checkbox"> Как работает цикл <code>for</code> (в прямой и обратный порядок)</label><br>
+<label><input type="checkbox"> Разницу между <code>while</code> и <code>repeat-until</code></label><br>
+<label><input type="checkbox"> Почему возникает бесконечный цикл и как его избежать</label><br>
+<label><input type="checkbox"> В каком цикле не обязательно писать <code>begin ... end</code> для нескольких команд</label><br>
+<label><input type="checkbox"> Как вычислять сумму или произведение элементов внутри цикла</label>
+</section>
+</main>
+
+<footer>Интерактивный учебный конспект • Pascal: Циклы</footer>
+
+<script>
+function show(id){document.getElementById(id).style.display='block'}
+function quiz(){
+ let s=0;
+ const a=document.querySelector('input[name=q1]:checked');
+ const b=document.querySelector('input[name=q2]:checked');
+ const c=document.querySelector('input[name=q3]:checked');
+ if(a&&a.value==='c')s++; if(b&&b.value==='b')s++; if(c&&c.value==='a')s++;
+ const r=document.getElementById('quizResult');
+ r.textContent='Результат: '+s+'/3'+(s===3?' — отлично!':' — повтори теорию и спробуй еще раз.');
+ r.className=s===3?'ok':'bad';
+}
+</script>
+</body>
+</html>
