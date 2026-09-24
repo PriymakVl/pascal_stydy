@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pascal: Користувацькі типи даних — інтерактивний урок</title>
+<style>
+:root{--bg:#f6f7fb;--card:#fff;--ink:#172033;--muted:#667085;--accent:#6c5ce7;--accent2:#00a896;--line:#e6e8ef;--code:#151823;--warn:#fff7df}
+*{box-sizing:border-box} body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+header{background:linear-gradient(135deg,#5b4bd8,#7c6cf2);color:#fff;padding:46px 20px}
+.wrap{max-width:1100px;margin:auto}.hero{display:grid;grid-template-columns:1.4fr .6fr;gap:28px;align-items:center}
+h1{font-size:clamp(32px,5vw,58px);line-height:1.03;margin:0 0 12px}.lead{font-size:19px;opacity:.95}
+.badge{display:inline-block;background:#ffffff22;border:1px solid #ffffff44;padding:7px 12px;border-radius:999px;margin:4px}
+nav{position:sticky;top:0;background:#ffffffee;backdrop-filter:blur(8px);z-index:3;border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;gap:8px;overflow:auto;padding:10px 16px} nav a{white-space:nowrap;text-decoration:none;color:var(--ink);padding:8px 12px;border-radius:10px}nav a:hover{background:#efedff}
+main{padding:28px 16px 60px}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px;margin:18px 0;box-shadow:0 7px 24px #1720330b}
+h2{margin-top:0;font-size:28px}h3{margin-bottom:8px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.note{background:#f0edff;border-left:5px solid var(--accent);padding:14px 16px;border-radius:10px}.teacher{background:var(--warn);border-left:5px solid #f4b400;padding:14px 16px;border-radius:10px}
+pre{background:var(--code);color:#f8f8f2;padding:17px;border-radius:13px;overflow:auto;font-size:15px;line-height:1.5}code{font-family:Consolas,monospace}
+table{width:100%;border-collapse:collapse}th,td{border-bottom:1px solid var(--line);padding:11px;text-align:left}th{background:#f8f8fc}
+.task{border:1px dashed #b7b2e9;border-radius:14px;padding:16px;margin:12px 0}.task strong{color:#5145cd}
+textarea,input[type=text]{width:100%;border:1px solid #ccd0dc;border-radius:10px;padding:12px;font:inherit;margin:7px 0}
+button{border:0;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer;background:var(--accent);color:white}button.alt{background:var(--accent2)}button.ghost{background:#eef0f5;color:#273043}
+.answer{display:none;margin-top:10px}.ok{color:#087f5b;font-weight:700}.bad{color:#c92a2a;font-weight:700}
+details{border:1px solid var(--line);padding:12px 14px;border-radius:12px;margin:10px 0}summary{cursor:pointer;font-weight:700}
+.pill{font-size:13px;background:#edf7f5;color:#087f5b;padding:4px 9px;border-radius:999px}
+footer{text-align:center;color:var(--muted);padding:30px}
+@media(max-width:760px){.hero,.grid{grid-template-columns:1fr}.card{padding:18px}}
+</style>
+</head>
+<body>
+<header>
+<div class="wrap hero">
+  <div>
+    <h1>Користувацькі типи даних у Pascal</h1>
+    <p class="lead">Інтерактивний урок зі створення та використання власних типів даних: псевдонімів, діапазонів, переліків та записів (record).</p>
+  </div>
+</div>
+</header>
+
+<nav><div class="wrap">
+<a href="#type-section">Секція TYPE</a><a href="#simple-types">Прості типи</a><a href="#records">Записи (record)</a><a href="#with-operator">Оператор with</a><a href="#practice">Практика</a><a href="#test">Міні-тест</a>
+</div></nav>
+
+<main class="wrap">
+
+<section class="card" id="type-section">
+<h2>1. Секція створення типів `type`</h2>
+<p>Стандартних типів (integer, real, string) не завжди достатньо. У Pascal ви можете створювати **власні типи даних** у спеціальному блоці <code>type</code>, який іде до блоку <code>var</code>.</p>
+<pre><code>program CustomTypes;
+
+type                    { Блок оголошення типів }
+  TScore = integer;     { Створення власного псевдоніма }
+  TName = string[30];
+
+var                     { Блок оголошення змінних }
+  studentScore: TScore;
+  studentName: TName;
+
+begin
+  studentScore := 100;
+  studentName := 'Олексій';
+  writeln(studentName, ' має бал: ', studentScore);
+end.</code></pre>
+<table><tr><th>Ключове слово</th><th>Опис</th></tr>
+<tr><td><code>type</code></td><td>початок розділу оголошення нових типів даних</td></tr>
+<tr><td><code>=</code></td><td>використовується для визначення типу (на відміну від <code>:</code> в оголошенні змінних)</td></tr>
+<tr><td><code>T...</code></td><td>за домовленістю назви користувацьких типів починають з літери <b>T</b> (від Type)</td></tr></table>
+<p class="note"><b>Запам'ятай:</b> Тип — це лише «шаблон» або «креслення». Самі дані зберігаються у змінних, які створюються на основі цього типу у блоці <code>var</code>.</p>
+</section>
+
+<section class="card" id="simple-types">
+<h2>2. Інтервальний та перелічувальний типи</h2>
+<p>Pascal дозволяє обмежувати можливі значення змінних або створювати список власних текстових значень.</p>
+<div class="grid">
+<div>
+<h3>Інтервальний тип (Subrange)</h3>
+<p>Задає чіткий діапазон значень «від .. до»:</p>
+<pre><code>type
+  TMark = 1..12;        { Оцінка від 1 до 12 }
+  TDaysInMonth = 1..31;
+  TLatinChar = 'A'..'Z';</code></pre>
+</div>
+<div>
+<h3>Перелічувальний тип (Enumerated)</h3>
+<p>Задає список можливих слів-значень:</p>
+<pre><code>type
+  TDays = (Mon, Tue, Wed, Thu, Fri, Sat, Sun);
+  TSeason = (Winter, Spring, Summer, Autumn);</code></pre>
+</div>
+</div>
+<div class="teacher"><b>Пояснення синтаксису.</b> Інтервальний тип використовує дві крапки <code>..</code>. Перелічувальний тип записується в круглих дужках <code>(...)</code>.</div>
+<div class="task"><strong>Швидка практика.</strong> Оголоси тип <code>THour</code> для годин доби (від 0 до 23) та тип <code>TTrafficLight</code> для кольорів світлофора (Red, Yellow, Green).
+<textarea id="t1" rows="5" placeholder="type&#10;  ..."></textarea>
+<button onclick="show('a1')">Показати приклад</button>
+<div class="answer" id="a1"><pre><code>type
+  THour = 0..23;
+  TTrafficLight = (Red, Yellow, Green);</code></pre></div></div>
+</section>
+
+<section class="card" id="records">
+<h2>3. Записи (`record`)</h2>
+<p><b>Запис (record)</b> — це складний тип даних, який об'єднує декілька змінних різних типів (полів) під одним іменем.</p>
+<pre><code>type
+  TStudent = record
+    name: string;
+    age: integer;
+    avgGrade: real;
+  end;
+
+var
+  s1: TStudent; { Створення змінної типу TStudent }</code></pre>
+<h3>Доступ до полів через крапку</h3>
+<pre><code>begin
+  s1.name := 'Анна';
+  s1.age := 16;
+  s1.avgGrade := 10.5;
+
+  writeln('Студент: ', s1.name, ', Середній бал: ', s1.avgGrade:0:1);
+end.</code></pre>
+<div class="task"><strong>Обери вірне звернення.</strong> Як правильно надати вік `18` об'єкту `p` типу `TPerson` з полем `age`?
+<input id="qtype" type="text" placeholder="Напиши команду...">
+<button class="alt" onclick="checkType()">Перевірити</button> <span id="typeResult"></span></div>
+</section>
+
+<section class="card" id="with-operator">
+<h2>4. Оператор `with`</h2>
+<p>Щоб не писати щоразу назву змінної-запису з крапкою, використовують оператор <code>with</code>.</p>
+<div class="grid">
+<div><h3>Звичайний підхід</h3><pre><code>s1.name := 'Іван';
+s1.age := 15;
+s1.avgGrade := 9.8;</code></pre></div>
+<div><h3>З використанням with</h3><pre><code>with s1 do
+begin
+  name := 'Іван';
+  age := 15;
+  avgGrade := 9.8;
+end;</code></pre></div>
+</div>
+<h3>Повна програма із записом та масивом типів</h3>
+<pre><code>program BookStore;
+
+type
+  TBook = record
+    title: string;
+    author: string;
+    price: real;
+  end;
+
+var
+  myBook: TBook;
+
+begin
+  with myBook do
+  begin
+    write('Введіть назву книги: ');
+    readln(title);
+    write('Введіть автора: ');
+    readln(author);
+    write('Введіть ціну: ');
+    readln(price);
+  end;
+
+  writeln('--- Книга додана ---');
+  writeln('"', myBook.title, '", автор: ', myBook.author, ' (', myBook.price:0:2, ' грн)');
+end.</code></pre>
+</section>
+
+<section class="card" id="practice">
+<h2>5. Практика — пишемо самі</h2>
+
+<div class="task"><strong>Завдання 1. Точка на площині.</strong> Створити тип <code>TPoint</code> із координатами $X$ та $Y$ (цілі числа). Ввести значення координат та вивести їх.
+<details><summary>Код для вчителя</summary><pre><code>program PointDemo;
+
+type
+  TPoint = record
+    x, y: integer;
+  end;
+
+var
+  p: TPoint;
+
+begin
+  write('Введіть X: '); readln(p.x);
+  write('Введіть Y: '); readln(p.y);
+
+  writeln('Точка з координатами: (', p.x, '; ', p.y, ')');
+end.</code></pre></details></div>
+
+<div class="task"><strong>Завдання 2. Інформація про автомобіль.</strong> Оголосити тип <code>TCar</code> (марка, рік випуску, ціна). Описати змінну, заповнити через <code>with</code> та вивести дані.
+<details><summary>Код для вчителя</summary><pre><code>program CarDemo;
+
+type
+  TCar = record
+    brand: string;
+    year: integer;
+    price: real;
+  end;
+
+var
+  car1: TCar;
+
+begin
+  with car1 do
+  begin
+    brand := 'Toyota';
+    year := 2020;
+    price := 15500.50;
+  end;
+
+  writeln('Авто: ', car1.brand, ', Рік: ', car1.year, ', Ціна: $', car1.price:0:2);
+end.</code></pre></details></div>
+
+<div class="task"><strong>Завдання 3. Прямокутник із точок.</strong> Описати тип <code>TRectangle</code>, який містить дві поля типу <code>TPoint</code> (верхній лівий та нижній правий кути).
+<details><summary>Код для вчителя</summary><pre><code>program RectDemo;
+
+type
+  TPoint = record
+    x, y: integer;
+  end;
+
+  TRectangle = record
+    topLeft: TPoint;
+    bottomRight: TPoint;
+  end;
+
+var
+  r: TRectangle;
+
+begin
+  r.topLeft.x := 0;
+  r.topLeft.y := 10;
+  r.bottomRight.x := 20;
+  r.bottomRight.y := 0;
+
+  writeln('Верхній лівий кут X: ', r.topLeft.x);
+end.</code></pre></details></div>
+</section>
+
+<section class="card" id="test">
+<h2>6. Міні-тест</h2>
+<p>1. В якій секції оголошуються нові типи даних?</p>
+<label><input type="radio" name="q1" value="a"> var</label><br>
+<label><input type="radio" name="q1" value="b"> type</label><br>
+<label><input type="radio" name="q1" value="c"> const</label>
+
+<p>2. Який тип дозволяє об'єднувати декілька полів різних типів під одним іменем?</p>
+<label><input type="radio" name="q2" value="a"> record</label><br>
+<label><input type="radio" name="q2" value="b"> array</label><br>
+<label><input type="radio" name="q2" value="c"> string</label>
+
+<p>3. Для чого використовується оператор <code>with</code>?</p>
+<label><input type="radio" name="q3" value="a"> Для створення циклів</label><br>
+<label><input type="radio" name="q3" value="b"> Для спрощення доступу до полів запису без повторення імені змінної</label><br>
+<label><input type="radio" name="q3" value="c"> Для оголошення масивів</label><br><br>
+<button onclick="quiz()">Перевірити тест</button>
+<p id="quizResult"></p>
+</section>
+
+<section class="card">
+<h2>7. Що учень має знати після уроку <span class="pill">checklist</span></h2>
+<label><input type="checkbox"> як і де використовується блок <code>type</code></label><br>
+<label><input type="checkbox"> як оголосити інтервальний (1..100) та перелічувальний типи</label><br>
+<label><input type="checkbox"> що таке тип <code>record</code> і з чого він складається</label><br>
+<label><input type="checkbox"> як звертатися до полів запису через крапку (<code>z.field</code>)</label><br>
+<label><input type="checkbox"> як спростити роботу із записами за допомогою оператора <code>with</code></label>
+</section>
+</main>
+
+<footer>Інтерактивний навчальний конспект • Pascal: Користувацькі типи даних</footer>
+<script>
+function show(id){document.getElementById(id).style.display='block'}
+function checkType(){
+ const v=document.getElementById('qtype').value.trim();
+ const r=document.getElementById('typeResult');
+ if(v==='p.age := 18;' || v==='p.age:=18;' || v==='p.age:=18' || v==='p.age := 18'){r.textContent='✓ Правильно!';r.className='ok'}else{r.textContent='Спробуй ще. Зразок: p.age := 18;';r.className='bad'}
+}
+function quiz(){
+ let s=0;
+ const a=document.querySelector('input[name=q1]:checked');
+ const b=document.querySelector('input[name=q2]:checked');
+ const c=document.querySelector('input[name=q3]:checked');
+ if(a&&a.value==='b')s++; if(b&&b.value==='a')s++; if(c&&c.value==='b')s++;
+ const r=document.getElementById('quizResult');
+ r.textContent='Результат: '+s+'/3'+(s===3?' — чудово!':' — переглянь теорію та спробуй ще раз.');
+ r.className=s===3?'ok':'bad';
+}
+</script>
+</body>
+</html>
